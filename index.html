@@ -59,6 +59,8 @@
         if (video.canPlayType('application/vnd.apple.mpegurl')) {
             alert('HLS Unsupported')
             canvas.remove()
+            video.controls = true
+
             document.body.appendChild(video)
 
             video.src = mediaSource;
