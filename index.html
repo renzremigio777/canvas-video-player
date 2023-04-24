@@ -61,23 +61,29 @@
             document.body.appendChild(video)
 
             video.src = mediaSource;
-            video.addEventListener('loadedmetadata', function() {
-                videoContainer = {
-                    video: video,
-                    ready: false
-                }
+            // video.addEventListener('loadedmetadata', function() {
+            //     videoContainer = {
+            //         video: video,
+            //         ready: false
+            //     }
 
-                video.onerror = function(e) {
-                    document.body.removeChild(canvas);
-                    document.body.innerHTML += "<h2>There is a problem loading the video</h2><br>";
-                    document.body.innerHTML += "Users of IE9+ , the browser does not support WebM videos used by this demo";
-                    document.body.innerHTML += "<br><a href='https://tools.google.com/dlpage/webmmf/'> Download IE9+ WebM support</a> from tools.google.com<br> this includes Edge and Windows 10";
+            //     video.onerror = function(e) {
+            //             alert("error occured")
+            //     }
+            //     video.oncanplay = readyToPlayVideo;
+            //     video.play();
 
-                }
-                video.oncanplay = readyToPlayVideo;
-                video.play();
+            // });
+            videoContainer = {
+                video: video,
+                ready: false
+            }
 
-            });
+            video.onerror = function(e) {
+                alert("error occured")
+            }
+            video.oncanplay = readyToPlayVideo;
+            video.play();
         } else {
             alert("None")
         }
