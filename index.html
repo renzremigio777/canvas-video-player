@@ -36,47 +36,37 @@
 
         var mediaSource = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
 
-        // if (Hls.isSupported()) {
-        //     alert('HLS Supported')
-        //     var hls = new Hls();
-        //     hls.loadSource(mediaSource);
-        //     hls.attachMedia(video);
-        //     videoContainer = {
-        //         video: video,
-        //         ready: false
-        //     }
+        if (Hls.isSupported()) {
+            alert('HLS Supported')
+            var hls = new Hls();
+            hls.loadSource(mediaSource);
+            hls.attachMedia(video);
+            videoContainer = {
+                video: video,
+                ready: false
+            }
 
-        //     video.onerror = function(e) {
-        //         document.body.removeChild(canvas);
-        //         document.body.innerHTML += "<h2>There is a problem loading the video</h2><br>";
-        //         document.body.innerHTML += "Users of IE9+ , the browser does not support WebM videos used by this demo";
-        //         document.body.innerHTML += "<br><a href='https://tools.google.com/dlpage/webmmf/'> Download IE9+ WebM support</a> from tools.google.com<br> this includes Edge and Windows 10";
+            video.onerror = function(e) {
+                document.body.removeChild(canvas);
+                document.body.innerHTML += "<h2>There is a problem loading the video</h2><br>";
+                document.body.innerHTML += "Users of IE9+ , the browser does not support WebM videos used by this demo";
+                document.body.innerHTML += "<br><a href='https://tools.google.com/dlpage/webmmf/'> Download IE9+ WebM support</a> from tools.google.com<br> this includes Edge and Windows 10";
 
-        //     }
-        //     video.oncanplay = readyToPlayVideo;
-        //     video.play();
-        // } else
+            }
+            video.oncanplay = readyToPlayVideo;
+            video.play();
+        } else
         if (video.canPlayType('application/vnd.apple.mpegurl')) {
             alert('HLS Unsupported')
-            canvas.remove()
-            video.controls = true
+                // canvas.remove()
+                // video.controls = true
 
-            document.body.appendChild(video)
+            // document.body.appendChild(video)
 
             video.src = mediaSource;
-            // video.addEventListener('loadedmetadata', function() {
-            //     videoContainer = {
-            //         video: video,
-            //         ready: false
-            //     }
-
-            //     video.onerror = function(e) {
-            //             alert("error occured")
-            //     }
-            //     video.oncanplay = readyToPlayVideo;
-            //     video.play();
-
-            // });
+            video.addEventListener('loadedmetadata', function() {
+                video.play();
+            });
             videoContainer = {
                 video: video,
                 ready: false
@@ -86,7 +76,6 @@
                 alert("error occured")
             }
             video.oncanplay = readyToPlayVideo;
-            video.play();
         } else {
             alert("None")
         }
@@ -130,7 +119,7 @@
             ctx.globalAlpha = 0.5;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = "#DDD";
+            ctx.fillStyle = "yellow";
             ctx.globalAlpha = 0.75;
             ctx.beginPath();
             var size = (canvas.height / 2) * 0.1;
