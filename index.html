@@ -32,15 +32,15 @@
         var canvas = document.getElementById("strmplyr");
         var ctx = canvas.getContext("2d");
         var videoContainer;
+        var video = document.createElement("video"); // create a video element
+
+        var mediaSource = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
 
         if (Hls.isSupported()) {
-            var video = document.createElement("video");
-
+            console.log('HLS Supported')
             var hls = new Hls();
-            hls.loadSource('https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8');
+            hls.loadSource(mediaSource);
             hls.attachMedia(video);
-
-
             videoContainer = {
                 video: video,
                 ready: false
@@ -54,7 +54,30 @@
 
             }
             video.oncanplay = readyToPlayVideo;
+            video.play();
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            console.log('HLS Unsupported')
+
+            video.src = mediaSource;
+            video.addEventListener('loadedmetadata', function() {
+                videoContainer = {
+                    video: video,
+                    ready: false
+                }
+
+                video.onerror = function(e) {
+                    document.body.removeChild(canvas);
+                    document.body.innerHTML += "<h2>There is a problem loading the video</h2><br>";
+                    document.body.innerHTML += "Users of IE9+ , the browser does not support WebM videos used by this demo";
+                    document.body.innerHTML += "<br><a href='https://tools.google.com/dlpage/webmmf/'> Download IE9+ WebM support</a> from tools.google.com<br> this includes Edge and Windows 10";
+
+                }
+                video.oncanplay = readyToPlayVideo;
+                video.play();
+            });
         }
+
+
 
 
 

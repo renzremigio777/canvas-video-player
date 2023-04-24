@@ -11,19 +11,22 @@
 var mediaSource = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
 
 var muted = false;
-var canvas = document.getElementById("myCanvas"); // get the canvas from the page
+var canvas = document.getElementById("strmplyr"); // get the canvas from the page
 var ctx = canvas.getContext("2d");
 var videoContainer; // object to hold video and associated info
 var video = document.createElement("video"); // create a video element
 canvas.width = innerWidth
 canvas.height = innerHeight
 
+
 if (Hls.isSupported()) {
+    console.log(1)
     var hls = new Hls();
     hls.loadSource(mediaSource);
     hls.attachMedia(video);
     video.play();
 } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+
     video.src = mediaSource;
     video.addEventListener('loadedmetadata', function() {
         video.play();
