@@ -37,7 +37,7 @@
         var mediaSource = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
 
         if (Hls.isSupported()) {
-            console.log('HLS Supported')
+            alert('HLS Supported')
             var hls = new Hls();
             hls.loadSource(mediaSource);
             hls.attachMedia(video);
@@ -56,7 +56,7 @@
             video.oncanplay = readyToPlayVideo;
             video.play();
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            console.log('HLS Unsupported')
+            alert('HLS Unsupported')
 
             video.src = mediaSource;
             video.addEventListener('loadedmetadata', function() {
@@ -75,6 +75,8 @@
                 video.oncanplay = readyToPlayVideo;
                 video.play();
             });
+        } else {
+            alert("None")
         }
 
 
