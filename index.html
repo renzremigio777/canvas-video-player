@@ -34,7 +34,7 @@
         var videoContainer;
         var video = document.createElement("video"); // create a video element
 
-        var mediaSource = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
+        var videoSrc = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
         if (video.canPlayType('application/vnd.apple.mpegurl')) {
             alert('HLS Unsupported')
                 // canvas.remove()
@@ -42,10 +42,27 @@
 
             // document.body.appendChild(video)
 
-            video.src = mediaSource;
+            // video.src = videoSrc;
+
+            var mediaSource = new MediaSource();
+            video.src = URL.createObjectURL(mediaSource);
+
+            mediaSource.addEventListener('sourceopen', function() {
+                var sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E,mp4a.40.2"');
+
+                fetch(videoSrc)
+                    .then(function(response) {
+                        return response.text();
+                    })
+                    .then(function(data) {
+                        sourceBuffer.appendBuffer(data);
+                    });
+            });
+
             video.addEventListener('loadedmetadata', function() {
                 video.play();
             });
+
             videoContainer = {
                 video: video,
                 ready: false
@@ -59,7 +76,7 @@
         if (Hls.isSupported()) {
             alert('HLS Supported')
             var hls = new Hls();
-            hls.loadSource(mediaSource);
+            hls.loadSource(videoSrc);
             hls.attachMedia(video);
             videoContainer = {
                 video: video,
@@ -77,10 +94,6 @@
             video.play();
         }
 
-
-
-
-
         function readyToPlayVideo(event) {
             console.log('ReadyToPlay')
             videoContainer.scale = 1;
@@ -89,7 +102,6 @@
         }
 
         function updateCanvas() {
-
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             if (videoContainer !== undefined && videoContainer.ready) {
