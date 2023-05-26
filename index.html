@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIDEO CANVAS</title>
+    <title>VIDEO CANVAS 5.26.0</title>
 
 </head>
 <style>
@@ -36,7 +36,7 @@
 
         var videoSrc = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
         if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            alert('HLS Unsupported 5/26')
+            alert('HLS Unsupported')
                 // canvas.remove()
                 // video.controls = true
 
@@ -48,6 +48,7 @@
             video.src = URL.createObjectURL(mediaSource);
 
             mediaSource.addEventListener('sourceopen', function() {
+                alert('sourceopen')
                 var sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E,mp4a.40.2"');
 
                 fetch(videoSrc)
@@ -86,7 +87,7 @@
             video.oncanplay = readyToPlayVideo;
         } else
         if (Hls.isSupported()) {
-            alert('HLS Supported 5/26')
+            alert('HLS Supported')
             var hls = new Hls();
             hls.loadSource(videoSrc);
             hls.attachMedia(video);
