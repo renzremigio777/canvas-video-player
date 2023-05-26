@@ -39,60 +39,61 @@
 
         ctx.fillStyle = 'red';
         ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-        // if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        //     alert('HLS Unsupported')
-        //         // canvas.remove()
-        //         // video.controls = true
-        //         // document.body.appendChild(video)
+        if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            alert('Video Element')
+                // canvas.remove()
+                // video.controls = true
+                // document.body.appendChild(video)
 
-        //     // video.src = videoSrc;
-        //     try {
+            // video.src = videoSrc;
+            try {
 
-        //         var mediaSource = new MediaSource();
-        //         video.src = URL.createObjectURL(mediaSource);
+                // var mediaSource = new MediaSource();
+                // video.src = URL.createObjectURL(mediaSource);
 
-        //         mediaSource.addEventListener('sourceopen', function() {
-        //             alert('sourceopen')
-        //             var sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E,mp4a.40.2"');
+                // mediaSource.addEventListener('sourceopen', function () {
+                //     alert('sourceopen')
+                //     var sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E,mp4a.40.2"');
 
-        //             fetch(videoSrc)
-        //                 .then(function(response) {
-        //                     let div = document.createElement('div')
-        //                     div.innerHTML = 'Response:' + JSON.stringify(response.text())
-        //                     document.body.appendChild(div)
+                //     fetch(videoSrc)
+                //         .then(function (response) {
+                //             let div = document.createElement('div')
+                //             div.innerHTML = 'Response:' + JSON.stringify(response.text())
+                //             document.body.appendChild(div)
 
-        //                     return response.text();
-        //                 })
-        //                 .then(function(data) {
-        //                     let div = document.createElement('div')
-        //                     div.innerHTML = 'Data:' + JSON.stringify(data)
-        //                     document.body.appendChild(div)
+                //             return response.text();
+                //         })
+                //         .then(function (data) {
+                //             let div = document.createElement('div')
+                //             div.innerHTML = 'Data:' + JSON.stringify(data)
+                //             document.body.appendChild(div)
 
-        //                     sourceBuffer.appendBuffer(data);
-        //                 });
-        //         });
+                //             sourceBuffer.appendBuffer(data);
+                //         });
+                // });
+                video.src = videoSrc;
+                video.addEventListener('loadedmetadata', function() {
+                    video.play();
+                });
 
+                videoContainer = {
+                    video: video,
+                    ready: false
+                }
 
-
-
-        //         videoContainer = {
-        //             video: video,
-        //             ready: false
-        //         }
-
-        //         video.onerror = function(e) {
-        //             alert("error occured")
-        //             let div = document.createElement('div')
-        //             div.innerHTML = 'Error:' + e
-        //             document.body.appendChild(div)
-        //         }
-        //         video.oncanplay = readyToPlayVideo;
-        //     } catch (e) {
-        //         alert(JSON.stringify(e))
-        //     }
-        // } else
+                video.onerror = function(e) {
+                    alert("error occured")
+                    let div = document.createElement('div')
+                    div.innerHTML = 'Error:' + e
+                    document.body.appendChild(div)
+                }
+                video.oncanplay = readyToPlayVideo;
+            } catch (e) {
+                alert(JSON.stringify(e))
+            }
+        } else
         if (Hls.isSupported()) {
-            alert('HLS Supported')
+            alert('HLS.js')
             var hls = new Hls();
             hls.loadSource(videoSrc);
             hls.attachMedia(video);
@@ -109,6 +110,10 @@
 
             }
             video.oncanplay = readyToPlayVideo;
+
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play();
+            });
             // video.play();
         }
 
