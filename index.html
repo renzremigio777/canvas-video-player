@@ -88,6 +88,12 @@
                     document.body.appendChild(div)
                 }
                 video.oncanplay = readyToPlayVideo;
+
+                video.addEventListener('timeupdate', function() {
+                    // Render the current frame on the canvas
+                    // ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    readyToPlayVideo();
+                });
             } catch (e) {
                 alert(JSON.stringify(e))
             }
