@@ -91,11 +91,11 @@
 
                 video.addEventListener('timeupdate', function() {
                     // Render the current frame on the canvas
-                    // ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    readyToPlayVideo();
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    // readyToPlayVideo();
                 });
             } catch (e) {
-                alert(JSON.stringify(e))
+                alert('error occured')
             }
         } else
         if (Hls.isSupported()) {
