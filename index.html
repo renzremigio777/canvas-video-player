@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIDEO CANVAS 5.26.0</title>
+    <title>VIDEO CANVAS 5.26.0 JSON</title>
 
 </head>
 <style>
@@ -54,24 +54,20 @@
                 fetch(videoSrc)
                     .then(function(response) {
                         let div = document.createElement('div')
-                        div.innerHTML = 'Response:' + response.text()
+                        div.innerHTML = 'Response:' + JSON.stringify(response.text())
                         document.body.appendChild(div)
 
                         return response.text();
                     })
                     .then(function(data) {
                         let div = document.createElement('div')
-                        div.innerHTML = 'Data:' + data
+                        div.innerHTML = 'Data:' + JSON.stringify(data)
                         document.body.appendChild(div)
 
                         sourceBuffer.appendBuffer(data);
                     });
             });
 
-            video.addEventListener('loadedmetadata', function() {
-                alert('loadedmetadata')
-                video.play();
-            });
 
             videoContainer = {
                 video: video,
