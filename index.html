@@ -46,44 +46,48 @@
                 // document.body.appendChild(video)
 
             // video.src = videoSrc;
+            try {
 
-            var mediaSource = new MediaSource();
-            video.src = URL.createObjectURL(mediaSource);
+                var mediaSource = new MediaSource();
+                video.src = URL.createObjectURL(mediaSource);
 
-            mediaSource.addEventListener('sourceopen', function() {
-                alert('sourceopen')
-                var sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E,mp4a.40.2"');
+                mediaSource.addEventListener('sourceopen', function() {
+                    alert('sourceopen')
+                    var sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E,mp4a.40.2"');
 
-                fetch(videoSrc)
-                    .then(function(response) {
-                        let div = document.createElement('div')
-                        div.innerHTML = 'Response:' + JSON.stringify(response.text())
-                        document.body.appendChild(div)
+                    fetch(videoSrc)
+                        .then(function(response) {
+                            let div = document.createElement('div')
+                            div.innerHTML = 'Response:' + JSON.stringify(response.text())
+                            document.body.appendChild(div)
 
-                        return response.text();
-                    })
-                    .then(function(data) {
-                        let div = document.createElement('div')
-                        div.innerHTML = 'Data:' + JSON.stringify(data)
-                        document.body.appendChild(div)
+                            return response.text();
+                        })
+                        .then(function(data) {
+                            let div = document.createElement('div')
+                            div.innerHTML = 'Data:' + JSON.stringify(data)
+                            document.body.appendChild(div)
 
-                        sourceBuffer.appendBuffer(data);
-                    });
-            });
+                            sourceBuffer.appendBuffer(data);
+                        });
+                });
 
 
-            videoContainer = {
-                video: video,
-                ready: false
+                videoContainer = {
+                    video: video,
+                    ready: false
+                }
+
+                video.onerror = function(e) {
+                    alert("error occured")
+                    let div = document.createElement('div')
+                    div.innerHTML = 'Error:' + e
+                    document.body.appendChild(div)
+                }
+                video.oncanplay = readyToPlayVideo;
+            } catch (e) {
+                alert(JSON.stringify(e))
             }
-
-            video.onerror = function(e) {
-                alert("error occured")
-                let div = document.createElement('div')
-                div.innerHTML = 'Error:' + e
-                document.body.appendChild(div)
-            }
-            video.oncanplay = readyToPlayVideo;
         } else
         if (Hls.isSupported()) {
             alert('HLS Supported')
