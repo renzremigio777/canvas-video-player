@@ -43,7 +43,6 @@
             alert('Video Element')
                 // canvas.remove()
                 // video.controls = true
-                // document.body.appendChild(video)
 
             // video.src = videoSrc;
             try {
@@ -71,6 +70,8 @@
                 //             sourceBuffer.appendBuffer(data);
                 //         });
                 // });
+                document.body.appendChild(video)
+                canvas.remove()
                 video.src = videoSrc;
                 video.addEventListener('loadedmetadata', function() {
                     video.play();
