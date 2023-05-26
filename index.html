@@ -52,14 +52,23 @@
 
                 fetch(videoSrc)
                     .then(function(response) {
+                        let div = document.createElement('div')
+                        div.innerHTML = 'Response:' + response.text()
+                        document.body.appendChild(div)
+
                         return response.text();
                     })
                     .then(function(data) {
+                        let div = document.createElement('div')
+                        div.innerHTML = 'Data:' + data
+                        document.body.appendChild(div)
+
                         sourceBuffer.appendBuffer(data);
                     });
             });
 
             video.addEventListener('loadedmetadata', function() {
+                alert('loadedmetadata')
                 video.play();
             });
 
@@ -70,6 +79,9 @@
 
             video.onerror = function(e) {
                 alert("error occured")
+                let div = document.createElement('div')
+                div.innerHTML = 'Error:' + e
+                document.body.appendChild(div)
             }
             video.oncanplay = readyToPlayVideo;
         } else
