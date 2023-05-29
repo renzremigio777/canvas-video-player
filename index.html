@@ -45,7 +45,7 @@
             video = document.createElement("video"), // create a video element
             muted = false
 
-        ctx.fillStyle = 'red';
+        ctx.fillStyle = 'blue';
         ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
         if (video.canPlayType('application/vnd.apple.mpegurl')) {
             alert('Video Element')
@@ -107,7 +107,7 @@
 
                 video.addEventListener('webkitplaybacktargetavailabilitychanged', function(event) {
                     var availability = event.target.webkitPlaybackTargetAvailability;
-
+                    console.log(webkitplaybacktargetavailabilitychanged, availability)
                     if (availability === 'airplay') {
                         // AirPlay is available, disable it
                         video.webkitShowPlaybackTargetPicker();
