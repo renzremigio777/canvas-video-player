@@ -11,19 +11,20 @@
 <style>
     body {
         margin: 0;
-        /* background-color: black; */
+        background-color: black;
+        overflow: hidden;
     }
     
     canvas {
-        position: fixed;
+        position: absolute;
         min-height: 100%;
         min-width: 100%;
     }
     
     video {
+        position: fixed;
         width: 100%;
         height: 100%;
-        object-fit: fill;
     }
 </style>
 <!-- <div id="container" class="canvas-container">
@@ -37,24 +38,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.4.0/hls.js" integrity="sha512-6i9FkwBcp+mVer4oKdPqx4iWX43cjzRP8Q5UZ44EmxctP8Q5i9uiIIeVkNI5FZviXu9wySIBt+CEnLF3pVWkww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- <script src="canvas-video.js"></script> -->
     <script type="text/javascript">
-        var container = document.getElementById('container'),
-            canvas = document.createElement('canvas'),
+        var canvas = document.createElement('canvas'),
             ctx = canvas.getContext('2d'),
             videoSrc = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
             videoContainer,
             video = document.createElement("video"), // create a video element
             muted = false
 
+        document.body.appendChild(video)
         document.body.appendChild(canvas)
-        drawPlayIcon();
+
+
         video.setAttribute('disablePictureInPicture', '');
 
-        // ctx.fillStyle = 'blue';
-        // ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
         if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            alert('Video Element')
-                // video.src = videoSrc;
+            // alert('Video Element')
+            // video.src = videoSrc;
             try {
 
                 // var mediaSource = new MediaSource();
@@ -81,8 +83,6 @@
                 //         });
                 // });
 
-                document.body.appendChild(video)
-                canvas.remove()
                 video.controls = true
                 video.src = videoSrc;
                 video.addEventListener('loadedmetadata', function() {
@@ -128,7 +128,7 @@
             }
         } else
         if (Hls.isSupported()) {
-            alert('HLS.js')
+            // alert('HLS.js')
             var hls = new Hls();
             hls.loadSource(videoSrc);
             hls.attachMedia(video);
@@ -162,7 +162,6 @@
         // }
 
         function readyToPlayVideo(event) {
-            // alert('ReadyToPlay')
             videoContainer.scale = 1;
             videoContainer.ready = true;
             requestAnimationFrame(updateCanvas);
@@ -171,6 +170,7 @@
         function updateCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+
             if (videoContainer !== undefined && videoContainer.ready) {
 
                 video.muted = muted;
@@ -180,10 +180,11 @@
                 var top = canvas.height / 2 - (vidH / 2) * scale;
                 var left = canvas.width / 2 - (vidW / 2) * scale;
 
-                ctx.drawImage(videoContainer.video, left, top, vidW * scale, vidH * scale);
+                // ctx.drawImage(videoContainer.video, left, top, vidW * scale, vidH * scale);
 
                 if (videoContainer.video.paused) {
-                    drawPlayIcon();
+                    // drawPlayIcon();
+                    drawWaterMark();
                 }
             }
 
@@ -209,6 +210,79 @@
             ctx.globalAlpha = 1;
         }
 
+        var pIndex = getRandomInt(0, 9),
+            tColor = "#FFFFFF"
+
+        function drawWaterMark() {
+            const cw = canvas.width;
+            const ch = canvas.height;
+
+
+
+            const positions = [{
+                p: "center",
+                x: 0,
+                y: 0
+            }, {
+                p: "top",
+                x: 0,
+                y: -ch / 2.5
+            }, {
+                p: "bottom",
+                x: 0,
+                y: ch / 2.5
+            }, {
+                p: "left",
+                x: -cw / 2.5,
+                y: 0
+            }, {
+                p: "right",
+                x: cw / 2.5,
+                y: 0
+            }, {
+                p: "top-left",
+                x: -cw / 2.5,
+                y: -ch / 2.5
+            }, {
+                p: "top-right",
+                x: cw / 2.5,
+                y: -ch / 2.5
+            }, {
+                p: "bottom-left",
+                x: -cw / 2.5,
+                y: ch / 2.5
+            }, {
+                p: "bottom-right",
+                x: cw / 2.5,
+                y: ch / 2.5
+            }, ]
+
+            ctx.font = "15px Arial";
+
+            ctx.globalAlpha = 10;
+            ctx.textAlign = "center";
+
+
+
+
+            const posX = (cw / 2) + positions[pIndex].x;
+            const posY = (ch / 2) + positions[pIndex].y;
+
+            const uidPos = {
+                x: posX,
+                y: posY
+            };
+            const sidPos = {
+                x: posX,
+                y: posY + 10
+            };
+
+            ctx.fillStyle = tColor ? tColor : '#FFFFFF';
+
+            ctx.fillText('66666', uidPos.x + 2, uidPos.y - 10);
+            ctx.fillText('test', sidPos.x + 2, sidPos.y - 1);
+        }
+
         function playPauseClick() {
             if (videoContainer !== undefined && videoContainer.ready) {
                 if (videoContainer.video.paused) {
@@ -219,7 +293,27 @@
             }
         }
 
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+        }
+
         canvas.addEventListener("click", playPauseClick);
+
+        video.addEventListener(
+            "resize",
+            (ev) => {
+                let w = video.videoWidth;
+                let h = video.videoHeight;
+
+                if (w && h) {
+                    video.style.width = w;
+                    video.style.height = h;
+                }
+            },
+            false
+        );
     </script>
 
 </body>
