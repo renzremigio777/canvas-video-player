@@ -78,7 +78,7 @@
                 // });
 
                 document.body.appendChild(video)
-                canvas.remove()
+                    // canvas.remove()
                 video.controls = true
                 video.src = videoSrc;
                 video.addEventListener('loadedmetadata', function() {
@@ -106,12 +106,12 @@
 
                 video.addEventListener('webkitplaybacktargetavailabilitychanged', function(event) {
                     var availability = event.target.webkitPlaybackTargetAvailability;
-                    alert('webkitplaybacktargetavailabilitychanged')
-                        // if (availability === 'airplay') {
-                        //     // Exit fullscreen mode if currently active
-                        //     if (video.webkitDisplayingFullscreen) {
-                        //         video.webkitExitFullscreen();
-                        //     }
+                    // if (availability === 'airplay') {
+                    //     // Exit fullscreen mode if currently active
+                    if (video.webkitDisplayingFullscreen) {
+                        alert('webkitDisplayingFullscreen')
+                        video.webkitExitFullscreen();
+                    }
 
                     // Disable AirPlay
                     video.webkitShowPlaybackTargetPicker();
@@ -156,7 +156,7 @@
         // }
 
         function readyToPlayVideo(event) {
-            alert('ReadyToPlay')
+            // alert('ReadyToPlay')
             videoContainer.scale = 1;
             videoContainer.ready = true;
             requestAnimationFrame(updateCanvas);
