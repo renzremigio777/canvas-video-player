@@ -107,9 +107,14 @@
 
                 video.addEventListener('webkitplaybacktargetavailabilitychanged', function(event) {
                     var availability = event.target.webkitPlaybackTargetAvailability;
-                    console.log(webkitplaybacktargetavailabilitychanged, availability)
+                    alert(availability)
                     if (availability === 'airplay') {
-                        // AirPlay is available, disable it
+                        // Exit fullscreen mode if currently active
+                        if (video.webkitDisplayingFullscreen) {
+                            video.webkitExitFullscreen();
+                        }
+
+                        // Disable AirPlay
                         video.webkitShowPlaybackTargetPicker();
                     }
                 });
