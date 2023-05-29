@@ -104,6 +104,15 @@
                     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                     // readyToPlayVideo();
                 });
+
+                video.addEventListener('webkitplaybacktargetavailabilitychanged', function(event) {
+                    var availability = event.target.webkitPlaybackTargetAvailability;
+
+                    if (availability === 'airplay') {
+                        // AirPlay is available, disable it
+                        video.webkitShowPlaybackTargetPicker();
+                    }
+                });
             } catch (e) {
                 alert('error occured')
             }
