@@ -20,6 +20,14 @@
         position: fixed;
         border: 1px solid #000;
     }
+    
+    video {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+    }
 </style>
 <canvas id="my-canvas"></canvas>
 
@@ -154,10 +162,9 @@
                 var left = canvas.width / 2 - (vidW / 2) * scale;
 
                 ctx.drawImage(videoContainer.video, left, top, vidW * scale, vidH * scale);
-                drawPlayIcon();
 
                 if (videoContainer.video.paused) {
-                    // drawPlayIcon();
+                    drawPlayIcon();
                 }
             }
 
