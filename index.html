@@ -14,20 +14,34 @@
         /* background-color: black; */
     }
     
-    canvas {
-        width: 100%;
-        height: 100vh;
+    .canvas-container {
         position: fixed;
-        border: 1px solid #000;
+        width: 100%;
+        padding-bottom: 56.25%;
+        /* Desired aspect ratio, e.g., 4:3 -> 75%, 16:9 -> 56.25% */
     }
     
+    canvas,
     video {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        inset: 1;
+    }
+    /* canvas {
+        position: fixed;
+        min-height: 100%;
+        min-width: 100%;
+    } */
+    /* video {
         width: 100%;
         height: 100%;
         object-fit: fill;
-    }
+    } */
 </style>
-<canvas id="my-canvas"></canvas>
+<div id="container" class="canvas-container">
+    <canvas id="my-canvas"></canvas>
+</div>
 
 <body>
 
@@ -36,7 +50,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.4.0/hls.js" integrity="sha512-6i9FkwBcp+mVer4oKdPqx4iWX43cjzRP8Q5UZ44EmxctP8Q5i9uiIIeVkNI5FZviXu9wySIBt+CEnLF3pVWkww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- <script src="canvas-video.js"></script> -->
     <script type="text/javascript">
-        var canvas = document.getElementById('my-canvas'),
+        var container = document.getElementById('container'),
+            canvas = document.getElementById('my-canvas'),
             ctx = canvas.getContext('2d'),
             videoSrc = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
             videoContainer,
@@ -77,7 +92,7 @@
                 //         });
                 // });
 
-                document.body.appendChild(video)
+                container.appendChild(video)
                 canvas.remove()
                 video.controls = true
                 video.src = videoSrc;
