@@ -22,11 +22,9 @@
     }
     
     video {
-        position: fixed;
-        right: 0;
-        bottom: 0;
-        min-width: 100%;
-        min-height: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
     }
 </style>
 <canvas id="my-canvas"></canvas>
@@ -45,13 +43,14 @@
             video = document.createElement("video"), // create a video element
             muted = false
 
+        video.setAttribute('disablePictureInPicture', '');
+
         ctx.fillStyle = 'blue';
         ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
         if (video.canPlayType('application/vnd.apple.mpegurl')) {
             alert('Video Element')
-                // canvas.remove()
-
-            // video.src = videoSrc;
+                // video.src = videoSrc;
             try {
 
                 // var mediaSource = new MediaSource();
