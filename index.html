@@ -107,16 +107,16 @@
 
                 video.addEventListener('webkitplaybacktargetavailabilitychanged', function(event) {
                     var availability = event.target.webkitPlaybackTargetAvailability;
-                    alert(availability)
-                    if (availability === 'airplay') {
-                        // Exit fullscreen mode if currently active
-                        if (video.webkitDisplayingFullscreen) {
-                            video.webkitExitFullscreen();
-                        }
+                    alert('webkitplaybacktargetavailabilitychanged')
+                        // if (availability === 'airplay') {
+                        //     // Exit fullscreen mode if currently active
+                        //     if (video.webkitDisplayingFullscreen) {
+                        //         video.webkitExitFullscreen();
+                        //     }
 
-                        // Disable AirPlay
-                        video.webkitShowPlaybackTargetPicker();
-                    }
+                    // Disable AirPlay
+                    video.webkitShowPlaybackTargetPicker();
+                    // }
                 });
             } catch (e) {
                 alert('error occured')
