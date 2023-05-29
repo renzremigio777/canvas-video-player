@@ -46,6 +46,7 @@
             muted = false
 
         document.body.appendChild(canvas)
+        drawPlayIcon();
         video.setAttribute('disablePictureInPicture', '');
 
         // ctx.fillStyle = 'blue';
@@ -100,9 +101,6 @@
                     document.body.appendChild(div)
                 }
 
-                if (videoContainer.video.paused) {
-                    drawPlayIcon();
-                }
 
                 video.oncanplay = readyToPlayVideo;
 
